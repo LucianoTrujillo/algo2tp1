@@ -10,19 +10,24 @@
 #define LECTURA "r"
 #define ESCRITURA "w"
 
+/*
+	Lee un pokemon del archivo pasado por parámetros y lo guarda en pokemon
+	Devuelve la cantidad de elementos que pudo leer
+*/
 int leer_pokemon(FILE* archivo, pokemon_t* pokemon){
-	return fscanf(archivo,
-			FORMATO_LEER_POKEMON,
-			pokemon->especie,
-			&(pokemon->velocidad),
-			&(pokemon->peso),
-			pokemon->color);
+	return fscanf(
+		archivo,
+		FORMATO_LEER_POKEMON,
+		pokemon->especie,
+		&(pokemon->velocidad),
+		&(pokemon->peso),
+		pokemon->color);
 }
 
 /*
 	Recibe la ruta para leer los pokemon y una variable donde guardará la cantida de pokemon que leyó.
 	Si la operación es exitosa, Devuelve un vector de pokemon alocados dinámicamente.
-	Si hubo un error al abrir el archivo y alocar memoria para los pokemon, devuelve NULL.
+	Si hubo un error al abrir el archivo o alocar memoria para los pokemon, devuelve NULL.
 */
 pokemon_t* leer_pokemons(const char* ruta_archivo, int* cantidad_pokemon){
 
@@ -99,8 +104,20 @@ void censar_arrecife(arrecife_t* arrecife, void (*mostrar_pokemon)(pokemon_t*)){
 
 	for(int i = 0; i < arrecife->cantidad_pokemon; i++){
 		mostrar_pokemon(pokemon);
-        pokemon++;
+		pokemon++;
 	}
+}
+
+/*
+	Imprime en el archivo los datos del pokemon pasado por parametro.
+	Si no pudo imprimir correctamente, devuelve un numero negativo.
+*/
+int imprimir_pokemon(pokemon_t* pokemon, FILE* archivo){
+	return fprintf(
+		archivo,
+		FORMATO_IMPRMIR_POKEMON,
+		pokemon->especie, pokemon->velocidad,
+		pokemon->peso, pokemon->color);
 }
 
 int guardar_datos_acuario(acuario_t* acuario, const char* nombre_archivo){
@@ -112,9 +129,7 @@ int guardar_datos_acuario(acuario_t* acuario, const char* nombre_archivo){
 	}
 
 	for(int i = 0; i < acuario->cantidad_pokemon; i++){
-		fprintf(archivo, FORMATO_IMPRMIR_POKEMON,
-				pokemon->especie, pokemon->velocidad,
-				pokemon->peso, pokemon->color);
+		imprimir_pokemon(pokemon, archivo);
 		pokemon++;
 	}
 
@@ -123,12 +138,15 @@ int guardar_datos_acuario(acuario_t* acuario, const char* nombre_archivo){
 }
 
 /*
-	Verifica si hay suficientes pokemon para trasladar desde el arrefice, que cumplan con la condicion que impone la funcion seleccionar_pokemon. 
+	Devuelve true si hay suficientes pokemon en el arrecife que cumplan con la condicion que impone la funcion cumple_condicion. 
 */
-bool hay_suficientes_pokemon(arrecife_t* arrecife, bool (*seleccionar_pokemon) (pokemon_t*), int cant_seleccion){
+bool hay_suficientes_pokemon(arrecife_t* arrecife, bool (*cumple_condicion) (pokemon_t*), int cant_seleccion){
 	int cant_seleccionados = 0;
+	pokemon_t* pokemon = arrecife->pokemon;
+	
 	for(int i = 0; i < arrecife->cantidad_pokemon && cant_seleccionados < cant_seleccion; i++){
-		cant_seleccionados += seleccionar_pokemon(&(arrecife->pokemon[i]));
+		cant_seleccionados += cumple_condicion(pokemon);
+		pokemon++;
 	}
 
 	return cant_seleccionados == cant_seleccion;
@@ -137,9 +155,9 @@ bool hay_suficientes_pokemon(arrecife_t* arrecife, bool (*seleccionar_pokemon) (
 /*
 	Remueve el pokemon que se encuentra en la posicion index del buffer del pokemon del arrecife.
 	Deja la cantidad de pokemones actualizada.
-	No devuelve la lista de pokemon con el mismo orden.
+	No asegura mantener el orden recibido.
 	Si falla al realocar, devuelve ERROR.
-	Si es exitoso, devuelve EXITO.
+	Si es exitoso en la eliminación, devuelve EXITO.
 */
 int remover_pokemon_arrecife(arrecife_t* arrecife, int index){
 	pokemon_t ultimo_pokemon = arrecife->pokemon[arrecife->cantidad_pokemon-1];
@@ -174,20 +192,22 @@ int agregar_pokemon_acuario(acuario_t* acuario, pokemon_t pokemon_seleccionado, 
 	return EXITO;
 }
 
-int trasladar_pokemon(arrecife_t* arrecife, acuario_t* acuario, bool (*seleccionar_pokemon) (pokemon_t*), int cant_seleccion){
-	int cantidad_seleccionados = 0, i = 0;
+int trasladar_pokemon(arrecife_t* arrecife, acuario_t* acuario, bool (*cumple_condicion) (pokemon_t*), int cant_seleccion){
+	int cantidad_seleccionados = 0, i = 0, estado = EXITO;
 
-	if(!hay_suficientes_pokemon(arrecife, seleccionar_pokemon, cant_seleccion)){
+	if(!hay_suficientes_pokemon(arrecife, cumple_condicion, cant_seleccion)){
 		return ERROR;
 	}
 
 	while(i < arrecife->cantidad_pokemon && cantidad_seleccionados < cant_seleccion) {
-		if(seleccionar_pokemon(&(arrecife->pokemon[i]))){
+		if(cumple_condicion(&(arrecife->pokemon[i]))){
 			pokemon_t pokemon_seleccionado = arrecife->pokemon[i];
-			if(remover_pokemon_arrecife(arrecife, i) == ERROR){
+			estado = remover_pokemon_arrecife(arrecife, i);
+			if(estado == ERROR){
 				return ERROR;
 			}
-			if(agregar_pokemon_acuario(acuario, pokemon_seleccionado, &cantidad_seleccionados) == ERROR){
+			estado = agregar_pokemon_acuario(acuario, pokemon_seleccionado, &cantidad_seleccionados);
+			if(estado == ERROR){
 				return ERROR;
 			}
 		} else {
