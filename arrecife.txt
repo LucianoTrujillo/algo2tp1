@@ -1,0 +1,4 @@
+especie_1_lento;0;12;azulado
+abchcba;10;100;azulado
+especie_1_lento_largo;0;0;azulado
+especie_1_fast_largo;120;12;azulado
