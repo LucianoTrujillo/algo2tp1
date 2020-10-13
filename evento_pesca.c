@@ -8,10 +8,21 @@
 #define EXITO 0
 #define CANTIDAD_LECTURA 4
 
-pokemon_t* leer_pokemons(FILE* archivo, int* cantidad_pokemon){
+/*
+	Recibe la ruta para leer los pokemon y una variable donde guardará la cantida de pokemon que leyó.
+	Si la operación es exitosa, Devuelve un vector de pokemon alocados dinámicamente.
+	Si hubo un error al abrir el archivo y alocar memoria para los pokemon, devuelve NULL.
+*/
+pokemon_t* leer_pokemons(const char* ruta_archivo, int* cantidad_pokemon){
+
+	FILE* archivo = fopen(ruta_archivo, "r");
+	if(!archivo){
+		return NULL;
+	}
 
 	pokemon_t* pokemon = malloc(sizeof(pokemon_t));
 	if(!pokemon){
+		fclose(archivo);
 		return NULL;
 	}
 
@@ -27,36 +38,32 @@ pokemon_t* leer_pokemons(FILE* archivo, int* cantidad_pokemon){
 		pokemon_t* nuevo_pokemon = realloc(pokemon, sizeof(pokemon_t) * (i + 1));
 		if(!nuevo_pokemon){
 			free(pokemon);
+			fclose(archivo);
 			return NULL;
 		}
 
 		pokemon = nuevo_pokemon;
 	}
+
 	*cantidad_pokemon = (int)i;
+	fclose(archivo);
 	return pokemon;
 }
 
 arrecife_t* crear_arrecife(const char* ruta_archivo){
-	FILE* archivo = fopen(ruta_archivo, "r");
-	if(!archivo){
+	arrecife_t* arrecife = malloc(sizeof(arrecife_t));
+	if(!arrecife){
 		return NULL;
 	}
 
-	arrecife_t* arrefice = malloc(sizeof(arrecife_t));
-	if(!arrefice){
-		fclose(archivo);
+	arrecife->pokemon = leer_pokemons(ruta_archivo, &(arrecife->cantidad_pokemon));
+
+	if(arrecife->pokemon == NULL){
+		free(arrecife);
 		return NULL;
 	}
 
-	arrefice->pokemon = leer_pokemons(archivo, &(arrefice->cantidad_pokemon));
-	fclose(archivo);
-
-	if(arrefice->pokemon == NULL){
-		arrefice->cantidad_pokemon = 0;
-		return NULL;
-	}
-
-	return arrefice;
+	return arrecife;
 }
 
 acuario_t* crear_acuario (){
@@ -121,7 +128,8 @@ bool hay_suficientes_pokemon(arrecife_t* arrecife, bool (*seleccionar_pokemon) (
 }
 
 /*
-	Remueve el pokemon que se encuentra en la posicion index del buffer del pokemon del arrecife. Deja la cantidad de pokemones actualizada.
+	Remueve el pokemon que se encuentra en la posicion index del buffer del pokemon del arrecife.
+	Deja la cantidad de pokemones actualizada.
 	No devuelve la lista de pokemon con el mismo orden.
 	Si falla al realocar, devuelve ERROR.
 	Si es exitoso, devuelve EXITO.
