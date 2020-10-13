@@ -1,2 +1,0 @@
-abchcba;10;100;azulado
-especie_1_fast_largo;120;12;azulado

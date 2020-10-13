@@ -7,6 +7,17 @@
 #define ERROR -1
 #define EXITO 0
 #define CANTIDAD_LECTURA 4
+#define LECTURA "r"
+#define ESCRITURA "w"
+
+int leer_pokemon(FILE* archivo, pokemon_t* pokemon){
+	return fscanf(archivo,
+			FORMATO_LEER_POKEMON,
+			pokemon->especie,
+			&(pokemon->velocidad),
+			&(pokemon->peso),
+			pokemon->color);
+}
 
 /*
 	Recibe la ruta para leer los pokemon y una variable donde guardará la cantida de pokemon que leyó.
@@ -15,7 +26,7 @@
 */
 pokemon_t* leer_pokemons(const char* ruta_archivo, int* cantidad_pokemon){
 
-	FILE* archivo = fopen(ruta_archivo, "r");
+	FILE* archivo = fopen(ruta_archivo, LECTURA);
 	if(!archivo){
 		return NULL;
 	}
@@ -27,15 +38,8 @@ pokemon_t* leer_pokemons(const char* ruta_archivo, int* cantidad_pokemon){
 	}
 
 	size_t i = 0;
-	while (fscanf(archivo,
-			FORMATO_LEER_POKEMON,
-			pokemon[i].especie,
-			&(pokemon[i].velocidad),
-			&(pokemon[i].peso),
-			pokemon[i].color) == CANTIDAD_LECTURA) {
-
-		i++;
-		pokemon_t* nuevo_pokemon = realloc(pokemon, sizeof(pokemon_t) * (i + 1));
+	while (leer_pokemon(archivo, pokemon+i) == CANTIDAD_LECTURA) {
+		pokemon_t* nuevo_pokemon = realloc(pokemon, sizeof(pokemon_t) * (++i + 1));
 		if(!nuevo_pokemon){
 			free(pokemon);
 			fclose(archivo);
@@ -55,6 +59,9 @@ arrecife_t* crear_arrecife(const char* ruta_archivo){
 	if(!arrecife){
 		return NULL;
 	}
+
+	arrecife->pokemon = NULL;
+	arrecife->cantidad_pokemon = 0;
 
 	arrecife->pokemon = leer_pokemons(ruta_archivo, &(arrecife->cantidad_pokemon));
 
@@ -97,7 +104,7 @@ void censar_arrecife(arrecife_t* arrecife, void (*mostrar_pokemon)(pokemon_t*)){
 }
 
 int guardar_datos_acuario(acuario_t* acuario, const char* nombre_archivo){
-	FILE* archivo = fopen(nombre_archivo, "w");
+	FILE* archivo = fopen(nombre_archivo, ESCRITURA);
 	pokemon_t* pokemon = acuario->pokemon;
 
 	if(!archivo){
