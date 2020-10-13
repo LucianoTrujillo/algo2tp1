@@ -6,6 +6,7 @@
 #include <stdarg.h>
 #include <time.h>
 #include "evento_pesca.h"
+#include "interaccion_usuario.h"
 
 #define ARRECIFE "arrecife.txt"
 #define ACUARIO "acuario.txt"
@@ -20,75 +21,6 @@
 
 #define VEL_RAPIDO 5
 #define LONGITUD_NOMBRE_EXOTICO 15 
-
-/*
-	Un custom delay para darle un efecto de pokemon a los mensajes del programa, recibe la cantidad de milisegundos que se desea esperar.
-*/
-
-void delay(int milisegundos)
-{
-    long pausa;
-    clock_t ahora, antes;
-
-    pausa = milisegundos*(CLOCKS_PER_SEC/1000);
-    ahora = antes = clock();
-    while((ahora-antes) < pausa)
-        ahora = clock();
-}
-
-/*
-	Un custom print para escribir en la mitad de la pantalla, con delay entre las letras similar a los juegos arcade.
-	Recibe los parametros de la misma manera que printf, el primer argumento es el string formato y el resto son las variables del tipo correspondiente, en orden.
-*/
-void c_print(char *fmt, ...){
-	va_list ap;
-	char *p;
-	int ival;
-	char* txt;
-	va_start(ap, fmt);
-	struct winsize w; 
-    ioctl(0, TIOCGWINSZ, &w); 
-	printf("%*s> ", (int)((w.ws_col - strlen(fmt)) / 2), " ");
-	for (p = fmt; *p; p++) {
-		if (*p != '%') {
-			putchar(*p);
-			fflush(stdout);
-			if(*p == ',' || *p == '.' || *p == '!' || *p == '?'){
-				delay(100); 
-			} else if (*p == '-' ){
-				delay(8);
-			} else if(*p == '\n'){
-				delay(100); 	
-			}
-			else {
-				delay(1); 	
-			}
-			continue;
-		}
-		switch (*++p) {
-			case 'd':
-				ival = va_arg(ap, int);
-				printf("%d", ival);
-				break;
-			case 'i':
-				ival = va_arg(ap, int);
-				printf("%i", ival);
-				break;
-			case 'c':
-				ival = va_arg(ap, int);
-				printf("%c", ival);
-				break;
-			case 's':
-				txt = va_arg(ap, char*);
-				printf("%s", txt);
-				break;
-			default: 
-				putchar(*p);
-				break;
-		}
-	}
-	delay(500); 
-}
 
 bool es_rapido(pokemon_t* pokemon){
 	return pokemon->velocidad > VEL_RAPIDO; 
