@@ -108,23 +108,28 @@ int main(int argc, char**argv) {
 
 	for(int i = 1; i < argc; i++){
 		int cantidad_seleccion = atoi(strstr(argv[i], "=") + 1);
+		int status = EXITO;
 
 		if((existe_caracteristica = strstr(argv[i], ES_RAPIDO))){
-			trasladar_pokemon(arrefice, acuario, es_rapido, cantidad_seleccion);
+			status = trasladar_pokemon(arrefice, acuario, es_rapido, cantidad_seleccion);
 		} else if((existe_caracteristica = strstr(argv[i], ES_EXOTICO))){
-			trasladar_pokemon(arrefice, acuario, es_especie_exotica, cantidad_seleccion);
+			status = trasladar_pokemon(arrefice, acuario, es_especie_exotica, cantidad_seleccion);
 		} else if((existe_caracteristica = strstr(argv[i], ES_PALINDROMO))){
-			trasladar_pokemon(arrefice, acuario, es_especie_palindromo, cantidad_seleccion);
+			status = trasladar_pokemon(arrefice, acuario, es_especie_palindromo, cantidad_seleccion);
 		} else if((existe_caracteristica = strstr(argv[i], COLOR_CONTIENE_Z))){
-			trasladar_pokemon(arrefice, acuario, color_contiene_z, cantidad_seleccion);
+			status = trasladar_pokemon(arrefice, acuario, color_contiene_z, cantidad_seleccion);
 		} else if((existe_caracteristica = strstr(argv[i], PESO_ES_VEL_AL_CUADRADO))){
-			trasladar_pokemon(arrefice, acuario, el_peso_es_su_velocidad_al_cuadrado, cantidad_seleccion);
+			status = trasladar_pokemon(arrefice, acuario, el_peso_es_su_velocidad_al_cuadrado, cantidad_seleccion);
 		}
 	
 		if(existe_caracteristica){
-		printf("\n\n");
-		c_print("Luego del traslado nº%i, %s\n\n", i, argv[i]);
-		censar_arrecife(arrefice, mostrar_pokemon);
+			printf("\n\n");
+			if(status == ERROR){
+				c_print("El traslado no se pudo realizar!\n");
+			} else {
+				c_print("Luego del traslado nº%i, %s\n\n", i, argv[i]);
+				censar_arrecife(arrefice, mostrar_pokemon);
+			}
 		} else {
 			printf("\n\n");
 			c_print("La catacteristica numero nº%i, %s no existe.\n\n", i, argv[i]);
