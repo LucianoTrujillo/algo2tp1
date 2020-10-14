@@ -27,9 +27,9 @@ int leer_pokemon(FILE* archivo, pokemon_t* pokemon, int* cantidad_pokemon){
 	if(leidos == CANTIDAD_LECTURA){
 		(*cantidad_pokemon)++;
 		return EXITO;
+	} else {
+		return ERROR;
 	}
-
-	return ERROR;
 }
 
 /*
@@ -38,8 +38,6 @@ int leer_pokemon(FILE* archivo, pokemon_t* pokemon, int* cantidad_pokemon){
 	Si hubo un error al abrir el archivo o alocar memoria para los pokemon, devuelve NULL.
 */
 pokemon_t* leer_pokemons(const char* ruta_archivo, int* cantidad_pokemon){
-	*cantidad_pokemon = 0;
-
 	FILE* archivo = fopen(ruta_archivo, LECTURA);
 	if(!archivo){
 		return NULL;
@@ -51,8 +49,9 @@ pokemon_t* leer_pokemons(const char* ruta_archivo, int* cantidad_pokemon){
 		return NULL;
 	}
 
+	*cantidad_pokemon = 0;
 	while (leer_pokemon(archivo, pokemon + *cantidad_pokemon, cantidad_pokemon) == EXITO) {
-		size_t nuevo_tamanio = sizeof(pokemon_t) * (size_t)((*cantidad_pokemon) + 1);
+		size_t nuevo_tamanio = sizeof(pokemon_t) * (size_t)(*cantidad_pokemon + 1);
 		pokemon_t* nuevo_pokemon = realloc(pokemon, nuevo_tamanio);
 
 		if(!nuevo_pokemon){
@@ -60,9 +59,9 @@ pokemon_t* leer_pokemons(const char* ruta_archivo, int* cantidad_pokemon){
 			free(pokemon);
 			fclose(archivo);
 			return NULL;
+		} else {
+			pokemon = nuevo_pokemon;
 		}
-
-		pokemon = nuevo_pokemon;
 	}
 
 	fclose(archivo);
