@@ -10,6 +10,8 @@
 
 #define ARRECIFE "arrecife.txt"
 #define ACUARIO "acuario.txt"
+#define ERROR -1
+#define EXITO 0
 
 //comandos
 #define AYUDA "ayuda"
@@ -108,23 +110,23 @@ int main(int argc, char**argv) {
 
 	for(int i = 1; i < argc; i++){
 		int cantidad_seleccion = atoi(strstr(argv[i], "=") + 1);
-		int status = EXITO;
+		int estado_traslado = EXITO;
 
 		if((existe_caracteristica = strstr(argv[i], ES_RAPIDO))){
-			status = trasladar_pokemon(arrefice, acuario, es_rapido, cantidad_seleccion);
+			estado_traslado = trasladar_pokemon(arrefice, acuario, es_rapido, cantidad_seleccion);
 		} else if((existe_caracteristica = strstr(argv[i], ES_EXOTICO))){
-			status = trasladar_pokemon(arrefice, acuario, es_especie_exotica, cantidad_seleccion);
+			estado_traslado = trasladar_pokemon(arrefice, acuario, es_especie_exotica, cantidad_seleccion);
 		} else if((existe_caracteristica = strstr(argv[i], ES_PALINDROMO))){
-			status = trasladar_pokemon(arrefice, acuario, es_especie_palindromo, cantidad_seleccion);
+			estado_traslado = trasladar_pokemon(arrefice, acuario, es_especie_palindromo, cantidad_seleccion);
 		} else if((existe_caracteristica = strstr(argv[i], COLOR_CONTIENE_Z))){
-			status = trasladar_pokemon(arrefice, acuario, color_contiene_z, cantidad_seleccion);
+			estado_traslado = trasladar_pokemon(arrefice, acuario, color_contiene_z, cantidad_seleccion);
 		} else if((existe_caracteristica = strstr(argv[i], PESO_ES_VEL_AL_CUADRADO))){
-			status = trasladar_pokemon(arrefice, acuario, el_peso_es_su_velocidad_al_cuadrado, cantidad_seleccion);
+			estado_traslado = trasladar_pokemon(arrefice, acuario, el_peso_es_su_velocidad_al_cuadrado, cantidad_seleccion);
 		}
 	
 		if(existe_caracteristica){
 			printf("\n\n");
-			if(status == ERROR){
+			if(estado_traslado == ERROR){
 				c_print("El traslado no se pudo realizar!\n");
 			} else {
 				c_print("Luego del traslado nº%i, %s\n\n", i, argv[i]);

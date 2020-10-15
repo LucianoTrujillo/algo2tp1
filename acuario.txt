@@ -1,0 +1,4 @@
+Riolu;22;1;bermellon
+Scyther;42;21;violeta
+Dratini;18;73;naranja
+Feebas;18;79;blanquirrojo

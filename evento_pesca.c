@@ -204,8 +204,6 @@ int guardar_datos_acuario(acuario_t* acuario, const char* nombre_archivo){
 }
 
 
-
-
 int trasladar_pokemon(arrecife_t* arrecife, acuario_t* acuario, bool (*cumple_condicion) (pokemon_t*), int cant_seleccion){
 	int cantidad_seleccionados = 0, i = 0, estado = EXITO;
 

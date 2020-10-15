@@ -5,11 +5,3 @@ Croagunk;50;76;plateado
 Feebas;18;79;blanquirrojo
 Dratini;18;73;naranja
 Scyther;42;21;violeta
-Geodude;19;49;blanquirrojo
-Ninjask;14;55;rojo
-Rampardos;42;66;salmon
-Kangaskhan;19;1;plateado
-Jolteon;38;62;plateado
-Mr-Mime;35;2;naranja
-Furret;17;19;amarillo
-Quagsire;26;33;plateado
