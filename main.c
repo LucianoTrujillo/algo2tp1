@@ -128,6 +128,7 @@ int main(int argc, char**argv) {
 			printf("\n\n");
 			if(estado_traslado == ERROR){
 				c_print("El traslado no se pudo realizar!\n");
+				return ERROR;
 			} else {
 				c_print("Luego del traslado nº%i, %s\n\n", i, argv[i]);
 				censar_arrecife(arrefice, mostrar_pokemon);
@@ -142,5 +143,5 @@ int main(int argc, char**argv) {
 	guardar_datos_acuario(acuario, ACUARIO);
 	liberar_acuario(acuario);
 	liberar_arrecife(arrefice);
-	return 0;
+	return EXITO;
 }
