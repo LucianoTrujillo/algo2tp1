@@ -95,18 +95,30 @@ void mostrar_ayuda(){
 }
 
 int main(int argc, char**argv) {
-	acuario_t* acuario = crear_acuario();
-	arrecife_t* arrefice = crear_arrecife(ARRECIFE);
-	bool existe_caracteristica = false;
-	
+
 	if(argc == 2 && strstr(argv[1], AYUDA)){
 		mostrar_ayuda();
-		return 0;
+		return EXITO;
+	}
+
+	acuario_t* acuario = crear_acuario();
+
+	if(!acuario){
+		return ERROR;
+	}
+
+	arrecife_t* arrefice = crear_arrecife(ARRECIFE);
+
+	if(!arrefice){
+		liberar_acuario(acuario);
+		return ERROR;
 	}
 	
 	printf("\n\n");
 	c_print("Los pokemones inicialmente en el arrecife: \n\n");
 	censar_arrecife(arrefice, mostrar_pokemon);
+
+	bool existe_caracteristica = false;
 
 	for(int i = 1; i < argc; i++){
 		int cantidad_seleccion = atoi(strstr(argv[i], "=") + 1);

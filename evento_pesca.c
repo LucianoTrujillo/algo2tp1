@@ -64,6 +64,12 @@ pokemon_t* leer_pokemons(const char* ruta_archivo, int* cantidad_pokemon){
 		}
 	}
 
+	if(*cantidad_pokemon == 0){
+		free(pokemon);
+		fclose(archivo);
+		return NULL;
+	}
+
 	fclose(archivo);
 	return pokemon;
 }
@@ -148,7 +154,7 @@ arrecife_t* crear_arrecife(const char* ruta_archivo){
 	arrecife->pokemon = leer_pokemons(ruta_archivo, &(arrecife->cantidad_pokemon));
 
 	if(arrecife->pokemon == NULL){
-		free(arrecife);
+		liberar_arrecife(arrecife);
 		return NULL;
 	}
 

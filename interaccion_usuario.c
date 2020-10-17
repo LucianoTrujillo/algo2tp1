@@ -39,6 +39,8 @@ void c_print(char *fmt, ...){
 			fflush(stdout);
 			if(*p == ',' || *p == '.' || *p == '!' || *p == '?'){
 				delay(DELAY_MEDIO); 
+			} if(*p == '-'){
+				delay(0); 
 			} else {
 				delay(DELAY_CORTO); 	
 			}

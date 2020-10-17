@@ -3,14 +3,18 @@
 ## Introducción
 
 Se desea crear una API (librería) que contenga las funcionalidades para poder simular el traslado de pokemon desde un arrecife hasta un acuario.<br /> 
-Los pokemon del arrecife se deben encontrar en el archivo arrecife.txt y los pokemones del acuario se encontrarán en acuario.txt.<br />
+Los pokemon del arrecife se deben encontrar en el archivo `arrecife.txt` y los pokemones del acuario se encontrarán en `acuario.txt`.<br />
 Para lograrlo, necesitas pasar por argumentos del programa, que características deben cumplir los pokemones trasladados junto con la cantidad que se desea trasladar.<br />
 De no llegar a la cantidad solicitada por usted, no se hará ningún translado.<br />
+
+- nota: No hay una razón muy contundente por la cual se decidió usar un nombre fijo y obligatorio, la implementación del programa se llevó a cabo con la asunsión de que el archivo `arrecife.txt` es autogenerado y nunca cambiará.  
 
 ## Compilación
 
 Para comilarlo y testear los leaks de memoria con valgrind, basta con hacer: <br/>
 `$ make all`
+Para compilar solamente: <br/>
+`$ make evento_pesca`
 La información sobre cada paso se encuentra en el archivo `makefile`<br/>
 
 ## Ejecución
