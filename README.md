@@ -60,8 +60,7 @@ Luego simplemente podemos asignar las referencias de las funciones a nuestro pun
 Y llamarlas como una funcion cualquiera: <br />
 `nombre_puntero_a_funcion(argumento_1, argumento_2, ... argumento_n);`<br />
 Los punteros a funciones permiten una manera eficiente de lograr que una función "siga diferentes pasos" dependiendo del input. Se logra de algúna manera cambiar su comportamiento dependiendo del caso. <br />
-Son muy útiles a la hora de "componer" lógica, ya que podemos abstraer una solución de su implementación. Por ejemplo, una función que valida un input del usuario, pero el input y la manera de validar van variando. < br />
-Podemos separar la lógica de validación con la implementación de cada validación dependiente del campo.
+Son muy útiles a la hora de "componer" lógica, ya que podemos abstraer una solución de su implementación. Por ejemplo, una función que valida un input del usuario, pero el input y la manera de validar van variando. Podemos separar la lógica de validación con la implementación de cada validación dependiente del campo.
 
 ### Malloc y Realloc
 
