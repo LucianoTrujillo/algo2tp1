@@ -3,7 +3,7 @@
 ## Introducción
 
 Se desea crear una API (librería) que contenga las funcionalidades para poder simular el traslado de pokemon desde un arrecife hasta un acuario.<br /> 
-Los pokemon del arrecife se deben encontrar un archivo de texto con formato `especie1;velocidad1;peso1;color1` y los pokemones del acuario se encontrarán en `acuario.txt` con el mismo formato. En el caso de no encontrar el archivo de arrecife pasado por argumento, se usará el default: "arrecife.txt"<br />
+Los pokemon del arrecife se deben encontrar un archivo de texto con formato `especie;velocidad;peso;color` por cada pokemon y los pokemones del acuario se encontrarán en `acuario.txt` con el mismo formato. En el caso de no encontrar el archivo de arrecife pasado por argumento, se usará el default: "arrecife.txt"<br />
 Para lograrlo, necesitas pasar por argumentos del programa, el nombre del archivo que contiene a los pokemon del arrecife y que características deben cumplir los pokemones trasladados junto con la cantidad que se desea trasladar.<br />
 De no llegar a la cantidad solicitada por usted, no se hará ese translado específico.<br />
 
@@ -60,7 +60,7 @@ Luego simplemente podemos asignar las referencias de las funciones a nuestro pun
 Y llamarlas como una funcion cualquiera: <br/>
 `nombre_puntero_a_funcion(argumento_1, argumento_2, ... argumento_n);`<br/>
 Los punteros a funciones permiten una manera eficiente de lograr que una función "siga diferentes pasos" dependiendo del input. Se logra de algúna manera cambiar su comportamiento dependiendo del caso. <br />
-Son muy útiles a la hora de "componer" lógica, ya que podemos abstraer una solución de su implementación. Por ejemplo, una función que valida un input del usuario, pero el input y la manera de validar van variando. < br/>
+Son muy útiles a la hora de "componer" lógica, ya que podemos abstraer una solución de su implementación. Por ejemplo, una función que valida un input del usuario, pero el input y la manera de validar van variando. < br />
 Podemos separar la lógica de validación con la implementación de cada validación dependiente del campo.
 
 ### Malloc y Realloc
