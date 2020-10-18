@@ -52,13 +52,13 @@ Los operadores de los punteros se pueden separar en 3: <br/><br/>
 
 ### Punteros a funciones
 
-Un puntero a una función almacena la dirección de memoria de esta función. Permite pasarla entre funciones, usarlas en vectores, usarla como atributos de registros y ejecutarlas. Su sintaxis no es la más bonita pero resultan muy útiles. <br/> 
-Para declarar punteros a funciones se utiliza la siguiente sintaxis: <br/>
-`tipo_retorno (*nombre_puntero_a_funcion) (tipo argumento_1, tipo argumento_2, ... tipo argumento_n);` <br/>
+Un puntero a una función almacena la dirección de memoria de esta función. Permite pasarla entre funciones, usarlas en vectores, usarla como atributos de registros y ejecutarlas. Su sintaxis no es la más bonita pero resultan muy útiles. <br /> 
+Para declarar punteros a funciones se utiliza la siguiente sintaxis: <br />
+`tipo_retorno (*nombre_puntero_a_funcion) (tipo argumento_1, tipo argumento_2, ... tipo argumento_n);` <br />
 Luego simplemente podemos asignar las referencias de las funciones a nuestro puntero de funcion de la siguiente manera: 
-`nombre_puntero_a_funcion = funcion_x;`<br/>
-Y llamarlas como una funcion cualquiera: <br/>
-`nombre_puntero_a_funcion(argumento_1, argumento_2, ... argumento_n);`<br/>
+`nombre_puntero_a_funcion = funcion_x;`<br />
+Y llamarlas como una funcion cualquiera: <br />
+`nombre_puntero_a_funcion(argumento_1, argumento_2, ... argumento_n);`<br />
 Los punteros a funciones permiten una manera eficiente de lograr que una función "siga diferentes pasos" dependiendo del input. Se logra de algúna manera cambiar su comportamiento dependiendo del caso. <br />
 Son muy útiles a la hora de "componer" lógica, ya que podemos abstraer una solución de su implementación. Por ejemplo, una función que valida un input del usuario, pero el input y la manera de validar van variando. < br />
 Podemos separar la lógica de validación con la implementación de cada validación dependiente del campo.
