@@ -128,6 +128,7 @@ int main(int argc, char**argv) {
 	acuario_t* acuario = crear_acuario();
 
 	if(!acuario){
+		c_print("No se pudo crear el arrecife\n");
 		return ERROR;
 	}
 
@@ -142,7 +143,7 @@ int main(int argc, char**argv) {
 	}
 	if(!arrefice){
 		liberar_acuario(acuario);
-		c_print("No se encontró el archivo de arrecife.\n");
+		c_print("Hubo un error al encontrar/abrir el archivo o crear el arrecife.\n");
 		return ERROR;
 	}
 
@@ -160,12 +161,16 @@ int main(int argc, char**argv) {
 
 		if((existe_caracteristica = strstr(argv[i], ES_RAPIDO))){
 			estado_traslado = trasladar_pokemon(arrefice, acuario, es_rapido, cantidad_seleccion);
+
 		} else if((existe_caracteristica = strstr(argv[i], ES_EXOTICO))){
 			estado_traslado = trasladar_pokemon(arrefice, acuario, es_especie_exotica, cantidad_seleccion);
+
 		} else if((existe_caracteristica = strstr(argv[i], ES_PALINDROMO))){
 			estado_traslado = trasladar_pokemon(arrefice, acuario, es_especie_palindromo, cantidad_seleccion);
+
 		} else if((existe_caracteristica = strstr(argv[i], COLOR_CONTIENE_Z))){
 			estado_traslado = trasladar_pokemon(arrefice, acuario, color_contiene_z, cantidad_seleccion);
+
 		} else if((existe_caracteristica = strstr(argv[i], PESO_ES_VEL_AL_CUADRADO))){
 			estado_traslado = trasladar_pokemon(arrefice, acuario, el_peso_es_su_velocidad_al_cuadrado, cantidad_seleccion);
 		}
@@ -175,14 +180,18 @@ int main(int argc, char**argv) {
 			if(estado_traslado == ERROR){
 				c_print("El traslado no se pudo realizar!\n");
 				return ERROR;
-			} else {
+			} else { //mientras mas pokemon trasladados, Misty se pone mas feliz, por eso las caritas dependiendo de la cantidad de traslados
 				c_print("Luego del traslado nº%i, %s\n\n", i, argv[i]);
 				if(arrefice->cantidad_pokemon == cantidad_pokemon_antes_traslado)
 					censar_arrecife(arrefice, mostrar_pokemon_triste);
+
 				if(cantidad_pokemon_antes_traslado - arrefice->cantidad_pokemon < MUCHOS_POKEMON_TRASLADADOS)
 					censar_arrecife(arrefice, mostrar_pokemon_normal);
+
 				if(cantidad_pokemon_antes_traslado - arrefice->cantidad_pokemon > MUCHOS_POKEMON_TRASLADADOS)
 					censar_arrecife(arrefice, mostrar_pokemon_feliz);
+				c_print("----------------------------------------------------------------------------------------------------------\n");
+
 			}
 		} else {
 			printf("\n\n");

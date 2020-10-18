@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include "evento_pesca.h"
 
-#define FORMATO_LEER_POKEMON "%[^;];%i;%i;%[^\n]\n"
+#define FORMATO_LEER_POKEMON "%100[^;];%i;%i;%100[^\n]\n"
 #define FORMATO_IMPRMIR_POKEMON "%s;%i;%i;%s\n"
 #define ERROR -1
 #define EXITO 0
@@ -16,6 +17,11 @@
 	Si no lee el pokemon correctamente, devuelve ERROR
 */
 int leer_pokemon(FILE* archivo, pokemon_t* pokemon, int* cantidad_pokemon){
+	strcpy(pokemon->especie, "");
+	strcpy(pokemon->color, "");
+	pokemon->peso = 0;
+	pokemon->velocidad = 0;
+
 	int leidos = fscanf(
 		archivo,
 		FORMATO_LEER_POKEMON,

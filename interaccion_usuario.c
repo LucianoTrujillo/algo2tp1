@@ -10,7 +10,7 @@
 #define MILISEGUNDOS_EN_SEGUNDO 1000
 #define DELAY_LARGO 500
 #define DELAY_MEDIO 100
-#define DELAY_CORTO 1
+#define DELAY_CORTO 40
 
 void delay(int milisegundos)
 {
