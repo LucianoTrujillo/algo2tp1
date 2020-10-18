@@ -143,7 +143,7 @@ int main(int argc, char**argv) {
 	}
 	if(!arrefice){
 		liberar_acuario(acuario);
-		c_print("Hubo un error al encontrar/abrir el archivo o crear el arrecife.\n");
+		c_print("Hubo un error al encontrar/abrir el archivo o al crear el arrecife.\n");
 		return ERROR;
 	}
 
@@ -182,14 +182,13 @@ int main(int argc, char**argv) {
 				return ERROR;
 			} else { //mientras mas pokemon trasladados, Misty se pone mas feliz, por eso las caritas dependiendo de la cantidad de traslados
 				c_print("Luego del traslado nº%i, %s\n\n", i, argv[i]);
-				if(arrefice->cantidad_pokemon == cantidad_pokemon_antes_traslado)
+				if(arrefice->cantidad_pokemon == cantidad_pokemon_antes_traslado){
 					censar_arrecife(arrefice, mostrar_pokemon_triste);
-
-				if(cantidad_pokemon_antes_traslado - arrefice->cantidad_pokemon < MUCHOS_POKEMON_TRASLADADOS)
+				} else if(cantidad_pokemon_antes_traslado - arrefice->cantidad_pokemon < MUCHOS_POKEMON_TRASLADADOS){
 					censar_arrecife(arrefice, mostrar_pokemon_normal);
-
-				if(cantidad_pokemon_antes_traslado - arrefice->cantidad_pokemon > MUCHOS_POKEMON_TRASLADADOS)
+				} else if(cantidad_pokemon_antes_traslado - arrefice->cantidad_pokemon > MUCHOS_POKEMON_TRASLADADOS)
 					censar_arrecife(arrefice, mostrar_pokemon_feliz);
+
 				c_print("----------------------------------------------------------------------------------------------------------\n");
 
 			}

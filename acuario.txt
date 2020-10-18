@@ -1,2 +1,0 @@
-Riolu;22;1;bermellon
-Bulbasaur;29;15;blanquirrojo
