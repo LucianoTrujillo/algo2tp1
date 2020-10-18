@@ -10,6 +10,7 @@
 
 #define ARRECIFE "arrecife.txt"
 #define ACUARIO "acuario.txt"
+#define ARGUMENTO_ARCHIVO "arrecife"
 #define ERROR -1
 #define EXITO 0
 
@@ -23,6 +24,7 @@
 
 #define VEL_RAPIDO 5
 #define LONGITUD_NOMBRE_EXOTICO 15 
+#define MUCHOS_POKEMON_TRASLADADOS 5
 
 bool es_rapido(pokemon_t* pokemon){
 	return pokemon->velocidad > VEL_RAPIDO; 
@@ -63,13 +65,30 @@ bool el_peso_es_su_velocidad_al_cuadrado(pokemon_t* pokemon){
 	return pokemon->peso == pokemon->velocidad * pokemon->velocidad;
 }
 
-void mostrar_pokemon(pokemon_t* pokemon){
-	c_print("Especie: %s, Velocidad: %i, Peso: %i, Color: %s\n",
+void mostrar_pokemon_triste(pokemon_t* pokemon){
+	c_print("Especie: %s Velocidad: %i Peso: %i Color: %s :( \n",
 		 	pokemon->especie,
 		 	pokemon->velocidad,
 		 	pokemon->peso,
 		 	pokemon->color);
 }
+
+void mostrar_pokemon_normal(pokemon_t* pokemon){
+	c_print("Especie: %s Velocidad: %i Peso: %i Color: %s :| \n",
+		 	pokemon->especie,
+		 	pokemon->velocidad,
+		 	pokemon->peso,
+		 	pokemon->color); 
+}
+
+void mostrar_pokemon_feliz(pokemon_t* pokemon){
+	c_print("Especie: %s Velocidad: %i Peso: %i Color: %s :D\n",
+		 	pokemon->especie,
+		 	pokemon->velocidad,
+		 	pokemon->peso,
+		 	pokemon->color);
+}
+
 
 void mostrar_ayuda(){
 	c_print("-----------------------------------------------------------------------------------------------------------------------------------------\n");
@@ -101,28 +120,43 @@ int main(int argc, char**argv) {
 		return EXITO;
 	}
 
+	if(argc < 2 || (argc == 2 && strstr(argv[1], ARGUMENTO_ARCHIVO)) ){
+		c_print("Asegurate de ingresar por lo menos una característica\n.");
+		return ERROR;
+	}
+
 	acuario_t* acuario = crear_acuario();
 
 	if(!acuario){
 		return ERROR;
 	}
 
-	arrecife_t* arrefice = crear_arrecife(ARRECIFE);
+	arrecife_t* arrefice = NULL;
+	int argumento = 1;
 
+	if(strstr(argv[1], ARGUMENTO_ARCHIVO)){
+		arrefice = crear_arrecife(strstr(argv[1], "=") + 1);
+		argumento++;
+	} else {
+		arrefice = crear_arrecife(ARRECIFE);
+	}
 	if(!arrefice){
 		liberar_acuario(acuario);
+		c_print("No se encontró el archivo de arrecife.\n");
 		return ERROR;
 	}
+
 	
 	printf("\n\n");
 	c_print("Los pokemones inicialmente en el arrecife: \n\n");
-	censar_arrecife(arrefice, mostrar_pokemon);
+	censar_arrecife(arrefice, mostrar_pokemon_feliz);
 
 	bool existe_caracteristica = false;
 
-	for(int i = 1; i < argc; i++){
+	for(int i = argumento; i < argc; i++){
 		int cantidad_seleccion = atoi(strstr(argv[i], "=") + 1);
 		int estado_traslado = EXITO;
+		int cantidad_pokemon_antes_traslado = arrefice->cantidad_pokemon;
 
 		if((existe_caracteristica = strstr(argv[i], ES_RAPIDO))){
 			estado_traslado = trasladar_pokemon(arrefice, acuario, es_rapido, cantidad_seleccion);
@@ -143,7 +177,12 @@ int main(int argc, char**argv) {
 				return ERROR;
 			} else {
 				c_print("Luego del traslado nº%i, %s\n\n", i, argv[i]);
-				censar_arrecife(arrefice, mostrar_pokemon);
+				if(arrefice->cantidad_pokemon == cantidad_pokemon_antes_traslado)
+					censar_arrecife(arrefice, mostrar_pokemon_triste);
+				if(cantidad_pokemon_antes_traslado - arrefice->cantidad_pokemon < MUCHOS_POKEMON_TRASLADADOS)
+					censar_arrecife(arrefice, mostrar_pokemon_normal);
+				if(cantidad_pokemon_antes_traslado - arrefice->cantidad_pokemon > MUCHOS_POKEMON_TRASLADADOS)
+					censar_arrecife(arrefice, mostrar_pokemon_feliz);
 			}
 		} else {
 			printf("\n\n");

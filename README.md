@@ -3,11 +3,10 @@
 ## Introducción
 
 Se desea crear una API (librería) que contenga las funcionalidades para poder simular el traslado de pokemon desde un arrecife hasta un acuario.<br /> 
-Los pokemon del arrecife se deben encontrar en el archivo `arrecife.txt` y los pokemones del acuario se encontrarán en `acuario.txt`.<br />
-Para lograrlo, necesitas pasar por argumentos del programa, que características deben cumplir los pokemones trasladados junto con la cantidad que se desea trasladar.<br />
+Los pokemon del arrecife se deben encontrar un archivo de texto con formato `especie1;velocidad1;peso1;color1` y los pokemones del acuario se encontrarán en `acuario.txt` con el mismo formato. En el caso de no encontrar el archivo de arrecife pasado por argumento, se usará el default: "arrecife.txt"<br />
+Para lograrlo, necesitas pasar por argumentos del programa, el nombre del archivo que contiene a los pokemon del arrecife y que características deben cumplir los pokemones trasladados junto con la cantidad que se desea trasladar.<br />
 De no llegar a la cantidad solicitada por usted, no se hará ningún translado.<br />
 
-- nota: No hay una razón muy contundente por la cual se decidió usar un nombre fijo y obligatorio, la implementación del programa se llevó a cabo con la asunsión de que el archivo `arrecife.txt` es autogenerado y nunca cambiará.  
 
 ## Compilación
 
@@ -19,8 +18,10 @@ La información sobre cada paso se encuentra en el archivo `makefile`<br/>
 
 ## Ejecución
 
-luego de escribir el nombre del programa (`./evento_pesca`), inserte las características que deben cumplir los pokemones de la siguiente manera: 
-`./evento_pesca <característica_1>=<cantidad_pokemones_de_caracteristica_1> <característica_n>=<cantidad_pokemones_de_esta_caracteristica> ...` <br/>
+luego de escribir el nombre del programa (`./evento_pesca`), inserte el nombre del archivo que contiene a los pokemon de la siguiente manera: <br/>
+`arrecife=<nombre del archivo>` <br/>
+Luego, inserte las características que deben cumplir los pokemones de la siguiente manera: <br/>
+`<característica 1>=<cantidad pokemones de caracteristica 1> <característica n>=<cantidad pokemones de esta caracteristica> ...` <br/>
 las características disponibles por el momento son: 
  - `es_rapido`: su velocidad supera los 5 puntos.
  - `es_especie_exotica`: su especie supera los 15 caracteres de longitud.
@@ -28,7 +29,7 @@ las características disponibles por el momento son:
  - `color_contiene_z`: su color contiene la letra z.
  - `el_peso_es_su_velocidad_al_cuadrado`: ¿...hace falta que aclare?<br />
  
-Un ejemplo de uso sería: `./evento_pesca es_rapido=3 es_especie_palindromo=1 color_contiene_z=3`<br />
+Un ejemplo de uso sería: `./evento_pesca arrecife=arrefice.txt es_rapido=3 es_especie_palindromo=1 color_contiene_z=3`<br />
 Para ver este mensaje nuevamente, escriba 'ayuda' luego del nombre del programa.
 
 ## Conceptos teóricos para realizar el tp
